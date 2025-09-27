@@ -1,0 +1,33 @@
+@startuml Architecture Overview
+
+!define LIGHTYELLOW #FFFACD
+!define LIGHTBLUE #E6F3FF
+!define LIGHTGREEN #F0FFF0
+
+package "JobFleet System (Future)" {
+  [Server] <<component>> LIGHTBLUE
+  [Worker] <<component>> LIGHTBLUE
+  [Enqueue] <<component>> LIGHTBLUE
+}
+
+package "Cross-cutting Infrastructure" {
+  [libtslog] <<library>> LIGHTYELLOW
+  note right of [libtslog]
+    Thread-safe logging library
+    - MPSC queue architecture
+    - Dedicated writer thread
+    - ISO-8601 timestamps
+    - Log rotation support
+  end note
+}
+
+[Server] ..> [libtslog] : uses
+[Worker] ..> [libtslog] : uses
+[Enqueue] ..> [libtslog] : uses
+
+note bottom
+  v1-logging: Focus on libtslog implementation
+  Future versions will implement Server, Worker, Enqueue
+end note
+
+@enduml
