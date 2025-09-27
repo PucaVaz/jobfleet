@@ -14,13 +14,13 @@ struct TestConfig {
 };
 
 void print_usage(const char* program_name) {
-  std::cout << "Usage: " << program_name << " [options]\n"
-            << "Options:\n"
-            << "  --threads N     Number of threads (default: 8)\n"
-            << "  --lines M       Lines per thread (default: 100000)\n"
-            << "  --out PATH      Output file (default: logs/test.log)\n"
-            << "  --level LEVEL   Log level (default: info)\n"
-            << "  --help          Show this help\n";
+  std::cout << "Uso: " << program_name << " [opções]\n"
+            << "Opções:\n"
+            << "  --threads N     Número de threads (padrão: 8)\n"
+            << "  --lines M       Linhas por thread (padrão: 100000)\n"
+            << "  --out PATH      Arquivo de saída (padrão: logs/test.log)\n"
+            << "  --level LEVEL   Nível de log (padrão: info)\n"
+            << "  --help          Mostrar esta ajuda\n";
 }
 
 TestConfig parse_args(int argc, char* argv[]) {
@@ -40,7 +40,7 @@ TestConfig parse_args(int argc, char* argv[]) {
     } else if (arg == "--level" && i + 1 < argc) {
       config.level = argv[++i];
     } else {
-      std::cerr << "Unknown argument: " << arg << std::endl;
+      std::cerr << "Argumento desconhecido: " << arg << std::endl;
       config.help = true;
     }
   }
@@ -72,21 +72,21 @@ int main(int argc, char* argv[]) {
     return 0;
   }
 
-  std::cout << "Starting log test with " << config.threads << " threads, "
-            << config.lines << " lines each, output: " << config.output_file
+  std::cout << "Iniciando teste de log com " << config.threads << " threads, "
+            << config.lines << " linhas cada, saída: " << config.output_file
             << std::endl;
 
-  // Initialize logger
+  // Inicializa o logger
   tslog::Options options;
   options.file_path = config.output_file;
   options.level = parse_level(config.level);
-  options.also_stdout = false; // Don't spam stdout during test
+  options.also_stdout = false; // Não fazer spam no stdout durante o teste
 
   tslog::init(options);
 
   auto start_time = std::chrono::high_resolution_clock::now();
 
-  // Create and start worker threads
+  // Cria e inicia threads trabalhadoras
   std::vector<std::thread> threads;
   threads.reserve(config.threads);
 
@@ -94,7 +94,7 @@ int main(int argc, char* argv[]) {
     threads.emplace_back(worker_thread, i, config.lines);
   }
 
-  // Wait for all threads to complete
+  // Aguarda todas as threads terminarem
   for (auto& t : threads) {
     t.join();
   }
@@ -103,13 +103,13 @@ int main(int argc, char* argv[]) {
   auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
       end_time - start_time);
 
-  // Shutdown logger
+  // Finaliza o logger
   tslog::shutdown();
 
   int expected_lines = config.threads * config.lines;
-  std::cout << "Test completed in " << duration.count() << "ms" << std::endl;
-  std::cout << "Expected lines: " << expected_lines << std::endl;
-  std::cout << "Check the log file for verification: " << config.output_file
+  std::cout << "Teste concluído em " << duration.count() << "ms" << std::endl;
+  std::cout << "Linhas esperadas: " << expected_lines << std::endl;
+  std::cout << "Verifique o arquivo de log para validação: " << config.output_file
             << std::endl;
 
   return 0;

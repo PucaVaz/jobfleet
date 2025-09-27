@@ -1,48 +1,48 @@
 # JobFleet - v1-logging
 
-Thread-safe logging library for the JobFleet distributed job processing system.
+Biblioteca de logging thread-safe para o sistema de processamento distribuído de jobs JobFleet.
 
-## Quick Start
+## Início Rápido
 
-### 1. Build the project
+### 1. Build do projeto
 
 ```bash
 cmake -S . -B build
 cmake --build build -j
 ```
 
-### 2. Run the test
+### 2. Executar o teste
 
 ```bash
 ./scripts/stress_log.sh
 ```
 
-### 3. Manual testing
+### 3. Teste manual
 
 ```bash
-# Run with custom parameters
+# Executar com parâmetros personalizados
 ./build/logtest --threads 4 --lines 10000 --out logs/custom.log
 
-# Check line count
+# Verificar contagem de linhas
 wc -l logs/custom.log
 ```
 
-## Features
+## Funcionalidades
 
-- **Thread-safe**: MPSC (Multi-Producer Single-Consumer) queue with dedicated writer thread
-- **ISO-8601 timestamps**: UTC format with millisecond precision
-- **Process/Thread tracking**: Includes PID and thread ID in each log entry
-- **Log rotation**: Optional file size-based rotation
-- **Multiple outputs**: Simultaneous file and stdout logging
-- **Zero dependencies**: No external libraries required
+- **Thread-safe**: Fila MPSC (Multi-Producer Single-Consumer) com thread dedicada de escrita
+- **Timestamps ISO-8601**: Formato UTC com precisão de milissegundos
+- **Rastreamento de processo/thread**: Inclui PID e ID da thread em cada entrada de log
+- **Rotação de logs**: Rotação opcional baseada no tamanho do arquivo
+- **Múltiplas saídas**: Logging simultâneo em arquivo e stdout
+- **Zero dependências**: Nenhuma biblioteca externa necessária
 
-## Log Format
+## Formato do Log
 
 ```
-[YYYY-MM-DDThh:mm:ss.sssZ pid tid LEVEL] message
+[YYYY-MM-DDThh:mm:ss.sssZ pid tid LEVEL] mensagem
 ```
 
-Example:
+Exemplo:
 ```
 [2025-01-15T14:30:25.123Z 12345 0x1a2b3c4d INFO] thread=0 line=42
 ```

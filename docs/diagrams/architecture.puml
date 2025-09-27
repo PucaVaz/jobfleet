@@ -4,30 +4,30 @@
 !define LIGHTBLUE #E6F3FF
 !define LIGHTGREEN #F0FFF0
 
-package "JobFleet System (Future)" {
+package "Sistema JobFleet (Futuro)" {
   [Server] <<component>> LIGHTBLUE
   [Worker] <<component>> LIGHTBLUE
   [Enqueue] <<component>> LIGHTBLUE
 }
 
-package "Cross-cutting Infrastructure" {
+package "Infraestrutura Transversal" {
   [libtslog] <<library>> LIGHTYELLOW
   note right of [libtslog]
-    Thread-safe logging library
-    - MPSC queue architecture
-    - Dedicated writer thread
-    - ISO-8601 timestamps
-    - Log rotation support
+    Biblioteca de logging thread-safe
+    - Arquitetura de fila MPSC
+    - Thread dedicada de escrita
+    - Timestamps ISO-8601
+    - Suporte à rotação de logs
   end note
 }
 
-[Server] ..> [libtslog] : uses
-[Worker] ..> [libtslog] : uses
-[Enqueue] ..> [libtslog] : uses
+[Server] ..> [libtslog] : usa
+[Worker] ..> [libtslog] : usa
+[Enqueue] ..> [libtslog] : usa
 
 note bottom
-  v1-logging: Focus on libtslog implementation
-  Future versions will implement Server, Worker, Enqueue
+  v1-logging: Foco na implementação da libtslog
+  Versões futuras implementarão Server, Worker, Enqueue
 end note
 
 @enduml

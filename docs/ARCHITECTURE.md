@@ -1,25 +1,25 @@
-# Architecture - v1-logging
+# Arquitetura - v1-logging
 
-## Overview
+## Visão Geral
 
-The libtslog library implements a thread-safe logging system using the MPSC (Multi-Producer Single-Consumer) pattern. This design ensures high performance by minimizing lock contention while guaranteeing thread safety.
+A biblioteca libtslog implementa um sistema de logging thread-safe usando o padrão MPSC (Multi-Producer Single-Consumer). Este design garante alta performance minimizando a contenção de locks enquanto garante thread safety.
 
-## Core Design
+## Design Principal
 
-The library uses a **dedicated writer thread** that consumes messages from a shared queue. Multiple producer threads can safely enqueue messages using a mutex-protected queue, while a single consumer thread handles all I/O operations asynchronously.
+A biblioteca usa uma **thread dedicada de escrita** que consome mensagens de uma fila compartilhada. Múltiplas threads produtoras podem seguramente enfileirar mensagens usando uma fila protegida por mutex, enquanto uma única thread consumidora lida com todas as operações de I/O de forma assíncrona.
 
-**Why MPSC?** This pattern eliminates the need for synchronization during file writes, reduces syscall overhead through batching, and provides better performance under high concurrency compared to per-thread file handles.
+**Por que MPSC?** Este padrão elimina a necessidade de sincronização durante escritas em arquivo, reduz o overhead de syscalls através de batching, e fornece melhor performance sob alta concorrência comparado a handles de arquivo por thread.
 
-## Architecture Diagram
+## Diagrama de Arquitetura
 
 ![Architecture Overview](diagrams/architecture.puml)
 
-The diagram shows the current libtslog implementation and placeholder components for future JobFleet system development (Server, Worker, Enqueue).
+O diagrama mostra a implementação atual da libtslog e componentes placeholder para futuro desenvolvimento do sistema JobFleet (Server, Worker, Enqueue).
 
-## Implementation Details
+## Detalhes da Implementação
 
-- **Queue Management**: `std::deque` with `std::mutex` and `std::condition_variable`
-- **Batched Writes**: Writer thread flushes messages in batches (every ~50ms or when buffer is full)
-- **Log Rotation**: File size-based rotation with simple `.1` backup scheme
-- **Error Handling**: Non-throwing API; errors logged to stderr without stopping service
-- **Timestamps**: UTC with millisecond precision using `std::chrono`
+- **Gerenciamento de Fila**: `std::deque` com `std::mutex` e `std::condition_variable`
+- **Escritas em Lote**: Thread de escrita faz flush das mensagens em lotes (a cada ~50ms ou quando buffer está cheio)
+- **Rotação de Log**: Rotação baseada no tamanho do arquivo com esquema simples de backup `.1`
+- **Tratamento de Erros**: API que não lança exceções; erros logados no stderr sem parar o serviço
+- **Timestamps**: UTC com precisão de milissegundos usando `std::chrono`

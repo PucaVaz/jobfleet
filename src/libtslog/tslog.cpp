@@ -79,13 +79,13 @@ void Logger::rotate_if_needed() {
 
         log_file.open(options.file_path, std::ios::app);
         if (!log_file.is_open()) {
-          std::cerr << "Failed to reopen log file after rotation: "
+          std::cerr << "Falha ao reabrir arquivo de log após rotação: "
                     << options.file_path << std::endl;
         }
       }
     }
   } catch (const std::exception& e) {
-    std::cerr << "Log rotation error: " << e.what() << std::endl;
+    std::cerr << "Erro na rotação de log: " << e.what() << std::endl;
   }
 }
 
@@ -138,7 +138,7 @@ void Logger::writer_loop() {
     }
   }
 
-  // Final flush on shutdown
+  // Flush final no shutdown
   flush_messages();
 }
 
@@ -146,7 +146,7 @@ void Logger::writer_loop() {
 
 void init(const Options& options) {
   if (g_logger) {
-    std::cerr << "Logger already initialized" << std::endl;
+    std::cerr << "Logger já foi inicializado" << std::endl;
     return;
   }
 
@@ -154,23 +154,23 @@ void init(const Options& options) {
   g_logger->options = options;
   g_logger->current_level.store(options.level);
 
-  // Create directory if it doesn't exist
+  // Cria diretório se não existir
   try {
     auto parent_path = std::filesystem::path(options.file_path).parent_path();
     if (!parent_path.empty()) {
       std::filesystem::create_directories(parent_path);
     }
   } catch (const std::exception& e) {
-    std::cerr << "Failed to create log directory: " << e.what() << std::endl;
+    std::cerr << "Falha ao criar diretório de log: " << e.what() << std::endl;
   }
 
-  // Open log file
+  // Abre arquivo de log
   g_logger->log_file.open(options.file_path, std::ios::app);
   if (!g_logger->log_file.is_open()) {
-    std::cerr << "Failed to open log file: " << options.file_path << std::endl;
+    std::cerr << "Falha ao abrir arquivo de log: " << options.file_path << std::endl;
   }
 
-  // Start writer thread
+  // Inicia thread de escrita
   g_logger->writer_thread = std::thread(&Logger::writer_loop, g_logger);
 }
 
@@ -220,7 +220,7 @@ void log(Level level, const std::string& msg) {
 
     g_logger->queue_cv.notify_one();
   } catch (const std::exception& e) {
-    std::cerr << "Logging error: " << e.what() << std::endl;
+    std::cerr << "Erro de logging: " << e.what() << std::endl;
   }
 }
 
