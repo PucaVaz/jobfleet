@@ -34,7 +34,20 @@ target_link_libraries(libtslog PUBLIC Threads::Threads)
 add_executable(logtest tools/logtest.cpp)
 target_link_libraries(logtest PRIVATE libtslog)
 
+# chat server/client executables
+add_executable(chat_server src/net/chat_server.cpp)
+target_link_libraries(chat_server PRIVATE libtslog)
+
+add_executable(chat_client src/net/chat_client.cpp)
+target_link_libraries(chat_client PRIVATE libtslog)
+
 # Set output directory for executables
 set_target_properties(logtest PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
+)
+set_target_properties(chat_server PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
+)
+set_target_properties(chat_client PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
 )

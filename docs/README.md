@@ -1,4 +1,4 @@
-# JobFleet - v1-logging
+# JobFleet - v1-logging / v2-cli
 
 Biblioteca de logging thread-safe para o sistema de processamento distribuído de jobs JobFleet.
 
@@ -17,7 +17,44 @@ cmake --build build -j
 ./scripts/stress_log.sh
 ```
 
-### 3. Teste manual
+### 3. Cliente/Servidor (v2-cli)
+
+Servidor de chat mínimo (TCP) com logging `libtslog` e cliente CLI.
+
+Build rápido via Makefile:
+
+```bash
+make -j
+```
+
+Subir servidor:
+
+```bash
+./build/chat_server --port 9000 --level info
+```
+
+Conectar cliente interativo:
+
+```bash
+./build/chat_client --host 127.0.0.1 --port 9000
+# digite mensagens e ENTER para enviar
+```
+
+Clientes para teste não interativo:
+
+```bash
+./build/chat_client --host 127.0.0.1 --port 9000 \
+  --count 5 --message "hello" --delay 10
+```
+
+Script de simulação de múltiplos clientes:
+
+```bash
+chmod +x scripts/test_chat.sh
+./scripts/test_chat.sh   # usa porta 9100 por padrão
+```
+
+### 4. Teste manual (v1)
 
 ```bash
 # Executar com parâmetros personalizados
