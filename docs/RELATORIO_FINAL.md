@@ -4,7 +4,7 @@ Status: funcionalidades obrigatórias concluídas e logging integrado.
 
 ## Diagrama de Sequência (Cliente ⇄ Servidor)
 
-![Client-Server Sequence](diagrams/client_server_sequence.puml)
+![Diagrama de Sequência Cliente-Servidor](diagrams/Client-Server-Chat-Sequence.svg)
 
 Descrição: o `chat_client` estabelece conexão TCP, envia mensagens delimitadas por `\n`, o `chat_server` registra eventos via `libtslog` e realiza broadcast das linhas recebidas para os demais clientes conectados. Encerramento é feito via `SIGINT/SIGTERM` com limpeza de recursos.
 
@@ -64,3 +64,6 @@ Descrição: o `chat_client` estabelece conexão TCP, envia mensagens delimitada
   - Testes automatizados de linha dividida, envio parcial e clientes lentos.
   - Documentar contrato de protocolo (delimitação por `\n`, limites de tamanho) em `docs/`.
 
+
+  ## Demonstração em Vídeo
+<video src="video_lp2.mp4" width="640" controls autoplay loop muted></video>
