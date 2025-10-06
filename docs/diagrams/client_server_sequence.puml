@@ -1,0 +1,31 @@
+@startuml Client-Server Chat Sequence
+
+actor User as U
+participant "ChatClient" as CC
+participant "ChatServer" as CS
+participant "libtslog" as Log
+
+U -> CC : digita mensagem
+CC -> CS : TCP connect(host, port)
+CS -> Log: info("conectado: <peer>")
+CS --> CC : OK
+
+loop mensagens
+  U -> CC : ENTER em uma linha
+  CC -> CS : send(line + "\\n")
+  CS -> Log: info("msg de <peer>: <line>")
+  group broadcast
+    CS --> CC : envia para outros clientes
+  end
+end
+
+U -> CC : Ctrl+C / EOF
+CC -> CS : shutdown(SHUT_WR)
+CS -> Log: info("desconectado: <peer>")
+CS --> CC : close
+
+... encerrando servidor ...
+CS -> Log: info("Encerrando chat_server...")
+
+@enduml
+

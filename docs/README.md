@@ -1,6 +1,8 @@
-# JobFleet - v1-logging / v2-cli
+# JobFleet - v3-final (v1-logging, v2-cli)
 
 Biblioteca de logging thread-safe para o sistema de processamento distribuído de jobs JobFleet.
+
+Tag: v3-final — Entrega final contendo documentação consolidada (diagrama de sequência, mapeamento requisitos → código e análise com IA). Consulte a seção "Relatório Final" abaixo.
 
 ## Início Rápido
 
@@ -83,3 +85,10 @@ Exemplo:
 ```
 [2025-01-15T14:30:25.123Z 12345 0x1a2b3c4d INFO] thread=0 line=42
 ```
+
+## Relatório Final
+
+Consulte `docs/RELATORIO_FINAL.md` para:
+- Diagrama de sequência cliente-servidor
+- Mapeamento requisitos → código
+- Análise técnica (IA) e próximos passos
